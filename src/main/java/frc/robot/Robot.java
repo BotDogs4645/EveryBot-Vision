@@ -8,21 +8,11 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Commands;
-import edu.wpi.first.wpilibj.Timer;
 import frc.robot.commands.MoveTowardTag;
 import frc.robot.commands.SearchForTag;
 import frc.robot.commands.ShootBalls;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Intake;
-import edu.wpi.first.math.geometry.Rotation3d;
-import edu.wpi.first.math.geometry.Transform3d;
-import edu.wpi.first.math.geometry.Translation3d;
-
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 /**
  * The VM is configured to automatically run this class, and to call the
