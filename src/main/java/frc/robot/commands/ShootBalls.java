@@ -19,7 +19,6 @@ public class ShootBalls extends CommandBase {
 
     @Override
     public void initialize() {
-        
         Commands.sequence(
             // Move arm up
             Commands.deadline(
@@ -40,12 +39,9 @@ public class ShootBalls extends CommandBase {
 
             // Stop intake
             Commands.runOnce(() -> intake.setIntake(0), intake)
-        ).schedule();
-    }
-
-    @Override
-    public void end(boolean interrupted) {
-        intake.setArm(0);
-        intake.setIntake(0);
+        ).handleInterrupt(() -> {
+            intake.setArm(0);
+            intake.setIntake(0);
+        }).schedule();
     }
 }

@@ -8,9 +8,9 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Limelight;
 import frc.robot.subsystems.DriveTrain;
 
-public class SearchForTag extends CommandBase {
+import static frc.robot.Constants.SearchForTag.*;
 
-    public static final double turnSpeed = 0.2;
+public class SearchForTag extends CommandBase {
 
     private DriveTrain driveTrain;
 
@@ -21,7 +21,7 @@ public class SearchForTag extends CommandBase {
 
     @Override
     public void execute() {
-        driveTrain.setMotors(-turnSpeed, turnSpeed);
+        driveTrain.setMotors(-TURN_SPEED, TURN_SPEED);
     }
 
     @Override

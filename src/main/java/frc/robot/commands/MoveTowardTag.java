@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.Limelight;
 import frc.robot.subsystems.DriveTrain;
 
-import static frc.robot.Constants.TagSearch.*;
+import static frc.robot.Constants.MoveTowardTag.*;
 
 public class MoveTowardTag extends CommandBase {
 
@@ -38,7 +38,6 @@ public class MoveTowardTag extends CommandBase {
         driveTrain.stop();
 
         if (Limelight.targetPos() == null) {
-            System.out.println("Rescheduling!!!!!");
             CommandScheduler.getInstance().schedule(new SearchForTag(driveTrain));
         }
     }

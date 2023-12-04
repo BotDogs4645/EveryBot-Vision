@@ -22,7 +22,7 @@ public class Limelight {
     }
 
     public static Transform3d targetPos() {
-        var targetPose = Limelight.entry("targetpose_cameraspace").getDoubleArray(new double[0]);
+        var targetPose = Limelight.entry("targetpose_robotspace").getDoubleArray(new double[0]);
         if (targetPose.length != 6) return null;
         
         return buildTransform(targetPose, 3, 4, 5);
