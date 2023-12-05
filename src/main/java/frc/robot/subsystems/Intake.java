@@ -8,16 +8,17 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
+import static frc.robot.Constants.Ports.*;
+
 public class Intake extends SubsystemBase {
 
     private CANSparkMax arm;
     private VictorSPX intake;
 
     public Intake() {
-        arm = new CANSparkMax(5, MotorType.kBrushless);
-        intake = new VictorSPX(6);
+        arm = new CANSparkMax(ARM, MotorType.kBrushless);
+        intake = new VictorSPX(INTAKE);
 
-        // arm.
         intake.setNeutralMode(NeutralMode.Brake);
     }
 

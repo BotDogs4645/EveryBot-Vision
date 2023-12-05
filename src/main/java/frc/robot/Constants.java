@@ -2,6 +2,17 @@ package frc.robot;
 
 public interface Constants {
 
+    interface Ports {
+
+        int CONTROLLER = 0;
+
+        int MOTOR_LEFT1 = 7, MOTOR_LEFT2 = 2;
+        int MOTOR_RIGHT1 = 3, MOTOR_RIGHT2 = 4;
+
+        int ARM = 5;
+        int INTAKE = 6;
+    }
+
     interface Limelight {
 
         // Limelight offset relative to the center of the robot

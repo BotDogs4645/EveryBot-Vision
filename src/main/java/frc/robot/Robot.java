@@ -14,6 +14,8 @@ import frc.robot.commands.ShootBalls;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Intake;
 
+import static frc.robot.Constants.Ports.*;
+
 /**
  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to
@@ -25,8 +27,8 @@ import frc.robot.subsystems.Intake;
  */
 public class Robot extends TimedRobot {
 
-  XboxController xbox = new XboxController(0);
-
+  private XboxController xbox = new XboxController(CONTROLLER);
+  
   private DriveTrain driveTrain;
   private Intake intake;
 
@@ -39,6 +41,13 @@ public class Robot extends TimedRobot {
   @Override
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
+
+    if (!Limelight.hasTarget()) {
+      System.out.println("No Limelight target!");
+    } else {
+      var t = Limelight.targetPos();
+      System.out.printf("Target position: {x: %.3f, y: %.3f, z: %.3f}\n", t.getX(), t.getY(), t.getZ());
+    }
   }
 
   @Override
@@ -54,16 +63,6 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousPeriodic() {
-
-    // Code to print every limelight key
-    // for (var key : Limelight.TABLE.getKeys()) {
-    //   System.out.println(key + "=>" + Limelight.entry(key).getValue().getValue());
-    // }
-
-    // Print target position
-    var t = Limelight.targetPos();
-    System.out.printf("x: %.3f, y: %.3f, z: %.3f\n", t.getX(), t.getY(), t.getZ());
-
   }
 
   @Override
@@ -72,18 +71,21 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
-    /*
-     * Make leftr jpystick control arm, leave triggers for intake and percision
-     * drive and maybe a turbo mode hehe
-     * camden would love a lack of speed limitations
-     */
+    // Right joystick controls movement (arcade drive)
+    // Right bumper makes it go faster.
+    double xScalar = 0.6;
+    double zScalar = 0.5;
+
     if (xbox.getRightBumper()) {
-      driveTrain.arcadeDrive(-xbox.getRightY(), xbox.getRightX() * 0.6);
-    } else if (xbox.getRightTriggerAxis() > 0.2) {
-      driveTrain.arcadeDrive(-xbox.getRightY() * 0.4, xbox.getRightX() * 0.3);
-    } else {
-      driveTrain.arcadeDrive(-xbox.getRightY() * 0.6, xbox.getRightX() * 0.5);
+      xScalar = 1;
+      zScalar = 0.7;
     }
+
+    driveTrain.arcadeDrive(-xbox.getRightY() * xScalar, xbox.getRightX() * zScalar);
+
+    // Left joystick controls the arm.
+    // Left bumper picks up with the intake and
+    //  left trigger shoots with the intake.
 
     intake.setArm(-xbox.getLeftY() * 0.2);
 
