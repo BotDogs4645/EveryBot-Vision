@@ -3,7 +3,9 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.drive.RobotDriveBase;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -23,18 +25,37 @@ public class DriveTrain extends SubsystemBase {
 
         left = new MotorControllerGroup(left1, left2);
         right = new MotorControllerGroup(right1, right2);
-        right.setInverted(true);
 
         drive = new DifferentialDrive(left, right);
     }
 
-    public void arcadeDrive(double xSpeed, double zRotate) {
-        drive.arcadeDrive(xSpeed, zRotate, false);
+    // The Problem: Left1 needs to be inverted but the motor locks when inverted.
+    //              Inverting it on the software side fixes it, but requires a
+    //              significant amount of customized behaviour.
+
+    public void arcadeDrive(double xSpeed, double zRotation) {
+        // This is just the source code from DifferentialDrive#arcadeDrive except
+        // that it calls #setMotors so we can properly invert 
+        System.out.printf("arcade: %.3f, %.3f\n", xSpeed, zRotation);
+
+        xSpeed *= -1;
+        
+        var m_deadband = RobotDriveBase.kDefaultDeadband;
+        var m_maxOutput = RobotDriveBase.kDefaultMaxOutput;
+
+        xSpeed = MathUtil.applyDeadband(xSpeed, m_deadband);
+        zRotation = MathUtil.applyDeadband(zRotation, m_deadband);
+    
+        var speeds = drive.arcadeDriveIK(xSpeed, zRotation, false);
+    
+        setMotors(speeds.left * m_maxOutput, speeds.right * m_maxOutput);
     }
 
     public void setMotors(double leftSpeed, double rightSpeed) {
         left.set(leftSpeed);
-        right.set(rightSpeed);
+
+        right1.set(-rightSpeed);
+        right2.set(rightSpeed);
     }
 
     public void stop() {

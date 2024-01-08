@@ -23,6 +23,7 @@ public class MoveTowardTag extends CommandBase {
     @Override
     public void execute() {
         double xAngle = Limelight.entry("tx").getDouble(0);
+        if (xAngle == 0) return;
 
         if (xAngle < MIN_ANGLE) {
             driveTrain.arcadeDrive(MOVE_SPEED, -TURN_SPEED);
@@ -45,6 +46,6 @@ public class MoveTowardTag extends CommandBase {
     @Override
     public boolean isFinished() {
         var targetPos = Limelight.targetPos();
-        return targetPos == null || targetPos.getZ() < SHOOT_DISTANCE;
+        return targetPos != null && targetPos.getZ() < SHOOT_DISTANCE;
     }
 }

@@ -28,7 +28,7 @@ import static frc.robot.Constants.Ports.*;
 public class Robot extends TimedRobot {
 
   private XboxController xbox = new XboxController(CONTROLLER);
-  
+
   private DriveTrain driveTrain;
   private Intake intake;
 
@@ -42,10 +42,10 @@ public class Robot extends TimedRobot {
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
 
-    if (!Limelight.hasTarget()) {
+    var t = Limelight.targetPos();
+    if (t == null) {
       System.out.println("No Limelight target!");
     } else {
-      var t = Limelight.targetPos();
       System.out.printf("Target position: {x: %.3f, y: %.3f, z: %.3f}\n", t.getX(), t.getY(), t.getZ());
     }
   }
@@ -73,16 +73,20 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     // Right joystick controls movement (arcade drive)
     // Right bumper makes it go faster.
-    double xScalar = 0.6;
-    double zScalar = 0.5;
+    double xScalar = 0.5;
+    double zScalar = 0.4;
 
     if (xbox.getRightBumper()) {
       xScalar = 1;
       zScalar = 0.7;
     }
 
-    driveTrain.arcadeDrive(-xbox.getRightY() * xScalar, xbox.getRightX() * zScalar);
+    double y = xbox.getRightY(), x = xbox.getRightX();
 
+    driveTrain.arcadeDrive(
+      -y * xScalar,
+      x * zScalar
+    );
     // Left joystick controls the arm.
     // Left bumper picks up with the intake and
     //  left trigger shoots with the intake.

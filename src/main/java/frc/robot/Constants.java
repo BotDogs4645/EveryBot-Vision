@@ -6,8 +6,8 @@ public interface Constants {
 
         int CONTROLLER = 0;
 
-        int MOTOR_LEFT1 = 7, MOTOR_LEFT2 = 2;
-        int MOTOR_RIGHT1 = 3, MOTOR_RIGHT2 = 4;
+        int MOTOR_LEFT1 = 3, MOTOR_LEFT2 = 4;
+        int MOTOR_RIGHT1 = 7, MOTOR_RIGHT2 = 2;
 
         int ARM = 5;
         int INTAKE = 6;
@@ -35,11 +35,11 @@ public interface Constants {
         double TURN_SPEED = 0.1;
 
         // Measured in degrees
-        double MIN_ANGLE = -15;
-        double MAX_ANGLE = -5;
+        double MIN_ANGLE = -12;
+        double MAX_ANGLE = -8;
 
         // Measured in meters
-        double SHOOT_DISTANCE = 1.5;
+        double SHOOT_DISTANCE = 1;
 
     }
 

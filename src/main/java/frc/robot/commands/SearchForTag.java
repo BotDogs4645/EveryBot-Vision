@@ -21,7 +21,7 @@ public class SearchForTag extends CommandBase {
 
     @Override
     public void execute() {
-        driveTrain.setMotors(-TURN_SPEED, TURN_SPEED);
+        driveTrain.setMotors(TURN_SPEED, -TURN_SPEED);
     }
 
     @Override
