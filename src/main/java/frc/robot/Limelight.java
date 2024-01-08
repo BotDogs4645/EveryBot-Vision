@@ -20,17 +20,14 @@ public class Limelight {
     }
 
     public static Transform3d targetPos() {
-        var targetPose = Limelight.entry("targetpose_robotspace").getDoubleArray(new double[0]);
-        if (targetPose.length != 6 || targetPose[2] < 1E-6) return null;
+        var pose = Limelight.entry("targetpose_robotspace").getDoubleArray(new double[0]);
+        if (pose.length != 6 || pose[2] < 1E-6) return null;
         
-        return buildTransform(targetPose, 3, 4, 5);
+        return new Transform3d(
+            new Translation3d(pose[0], pose[1], pose[2]),
+            new Rotation3d(pose[3], pose[4], pose[5])
+        );
     }
 
-    private static Transform3d buildTransform(double[] nums, int roll, int pitch, int yaw) {
-        var translation = new Translation3d(nums[0], nums[1], nums[2]);
-        var rotation = new Rotation3d(nums[roll], nums[pitch], nums[yaw]);
-
-        return new Transform3d(translation, rotation);
-    }
 
 }
