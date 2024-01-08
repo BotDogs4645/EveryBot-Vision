@@ -1,4 +1,4 @@
-package frc.robot;
+package frc.robot.subsystems;
 
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
@@ -6,21 +6,22 @@ import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class Limelight {
+public class Limelight extends SubsystemBase {
 
     public static final NetworkTable TABLE = NetworkTableInstance.getDefault().getTable("limelight");
 
-    public static NetworkTableEntry entry(String key) {
+    public NetworkTableEntry entry(String key) {
         return TABLE.getEntry(key);
     }
 
-    public static boolean hasTarget() {
+    public boolean hasTarget() {
         return targetPos() != null;
     }
 
-    public static Transform3d targetPos() {
-        var pose = Limelight.entry("targetpose_robotspace").getDoubleArray(new double[0]);
+    public Transform3d targetPos() {
+        var pose = entry("targetpose_robotspace").getDoubleArray(new double[0]);
         if (pose.length != 6 || pose[2] < 1E-6) return null;
         
         return new Transform3d(
@@ -29,5 +30,12 @@ public class Limelight {
         );
     }
 
+    public Transform3d calculateLocation() {
+        var pos = targetPos();
+        if (pos == null) return null; // Cannot calculate location if we can't see a target!
+        
+        // TODO
+        return null;
+    }
 
 }

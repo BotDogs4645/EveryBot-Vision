@@ -5,18 +5,20 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Limelight;
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.Limelight;
 
 import static frc.robot.Constants.SearchForTag.*;
 
 public class SearchForTag extends CommandBase {
 
     private DriveTrain driveTrain;
+    private Limelight limelight;
 
-    public SearchForTag(DriveTrain driveTrain) {
+    public SearchForTag(DriveTrain driveTrain, Limelight limelight) {
         this.driveTrain = driveTrain;
-        addRequirements(driveTrain);
+        this.limelight = limelight;
+        addRequirements(driveTrain, limelight);
     }
 
     @Override
@@ -31,6 +33,6 @@ public class SearchForTag extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return Limelight.hasTarget();
+        return limelight.hasTarget();
     }
 }

@@ -13,6 +13,7 @@ import frc.robot.commands.SearchForTag;
 import frc.robot.commands.ShootBalls;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Limelight;
 
 import static frc.robot.Constants.Ports.*;
 
@@ -31,18 +32,20 @@ public class Robot extends TimedRobot {
 
   private DriveTrain driveTrain;
   private Intake intake;
+  private Limelight limelight;
 
   @Override
   public void robotInit() {
     driveTrain = new DriveTrain();
     intake = new Intake();
+    limelight = new Limelight();
   }
 
   @Override
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
 
-    var t = Limelight.targetPos();
+    var t = limelight.targetPos();
     if (t == null) {
       System.out.println("No Limelight target!");
     } else {
@@ -53,8 +56,8 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     var search = Commands.sequence(
-      new SearchForTag(driveTrain),
-      new MoveTowardTag(driveTrain),
+      new SearchForTag(driveTrain, limelight),
+      new MoveTowardTag(driveTrain, limelight),
       new ShootBalls(intake)
     );
 

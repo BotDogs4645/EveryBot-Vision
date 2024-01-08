@@ -6,23 +6,25 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.Limelight;
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.Limelight;
 
 import static frc.robot.Constants.MoveTowardTag.*;
 
 public class MoveTowardTag extends CommandBase {
 
     private DriveTrain driveTrain;
+    private Limelight limelight;
 
-    public MoveTowardTag(DriveTrain driveTrain) {
+    public MoveTowardTag(DriveTrain driveTrain, Limelight limelight) {
         this.driveTrain = driveTrain;
-        addRequirements(driveTrain);
+        this.limelight = limelight;
+        addRequirements(driveTrain, limelight);
     }
 
     @Override
     public void execute() {
-        double xAngle = Limelight.entry("tx").getDouble(0);
+        double xAngle = limelight.entry("tx").getDouble(0);
         if (xAngle == 0) return;
 
         if (xAngle < MIN_ANGLE) {
@@ -38,14 +40,14 @@ public class MoveTowardTag extends CommandBase {
     public void end(boolean interrupted) {
         driveTrain.stop();
 
-        if (Limelight.targetPos() == null) {
-            CommandScheduler.getInstance().schedule(new SearchForTag(driveTrain));
+        if (limelight.targetPos() == null) {
+            CommandScheduler.getInstance().schedule(new SearchForTag(driveTrain, limelight));
         }
     }
 
     @Override
     public boolean isFinished() {
-        var targetPos = Limelight.targetPos();
+        var targetPos = limelight.targetPos();
         return targetPos != null && targetPos.getZ() < SHOOT_DISTANCE;
     }
 }
