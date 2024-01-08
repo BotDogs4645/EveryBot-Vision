@@ -4,13 +4,13 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Limelight;
 import frc.robot.subsystems.DriveTrain;
 
 import static frc.robot.Constants.SearchForTag.*;
 
-public class SearchForTag extends CommandBase {
+public class SearchForTag extends Command {
 
     private DriveTrain driveTrain;
 

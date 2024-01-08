@@ -4,14 +4,14 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.Limelight;
 import frc.robot.subsystems.DriveTrain;
 
 import static frc.robot.Constants.MoveTowardTag.*;
 
-public class MoveTowardTag extends CommandBase {
+public class MoveTowardTag extends Command {
 
     private DriveTrain driveTrain;
 
